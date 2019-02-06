@@ -19,7 +19,9 @@ end
 
 group :acceptance_testing do
   gem 'beaker', '4.2.0'
+  gem 'beaker-module_install_helper', '0.1.7'
   gem 'beaker-puppet', '1.12.0'
+  gem 'beaker-puppet_install_helper', '0.9.7'
   gem 'beaker-rspec', '6.2.4'
   gem 'beaker-vagrant', '0.6.0'
 end
