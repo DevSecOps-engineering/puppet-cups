@@ -17,3 +17,4 @@ vendor/
 Gemfile.lock
 gems.locked
 /README.md
+.*.sw?
