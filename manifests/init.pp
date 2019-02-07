@@ -53,6 +53,9 @@
 # @param service_ensure Whether the CUPS services should be `running` or `stopped`.
 # @param service_manage Whether to manage services at all.
 # @param service_names A name or an array of names of all CUPS services to be managed.
+# @param socket_manage Workaround a CUPS/OS bug (see `cups::server::socket`).
+#   Enabled by default on RHEL7, disabled elsewhere.
+# @param socket_ensure Should match `service_ensure`, the default.
 # @param web_interface Boolean value to enable or disable the server's web interface.
 #
 class cups (
@@ -78,6 +81,8 @@ class cups (
   String                                   $service_ensure         = 'running',
   Boolean                                  $service_manage         = true,
   Variant[String, Array[String]]           $service_names          = 'cups',
+  Boolean                        $socket_manage          = false,
+  String[1]                      $socket_ensure          = $service_ensure,
   Optional[Boolean]                        $web_interface          = undef,
 ) inherits cups::params {
 

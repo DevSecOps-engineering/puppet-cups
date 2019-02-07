@@ -2,4 +2,7 @@
 fixtures:
   symlinks:
     cups: "#{source_dir}"
-
+  forge_modules:
+    systemd: camptocamp/systemd
+    stdlib: puppetlabs/stdlib
+    inifile: puppetlabs/inifile

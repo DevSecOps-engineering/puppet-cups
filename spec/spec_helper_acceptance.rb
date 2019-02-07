@@ -5,6 +5,8 @@ require 'shellwords'
 require 'beaker'
 require 'beaker-puppet'
 require 'beaker-rspec'
+require 'beaker/puppet_install_helper'
+require 'beaker/module_install_helper'
 
 # Beaker related configuration
 # http://www.rubydoc.info/github/puppetlabs/beaker/Beaker/DSL
@@ -12,9 +14,9 @@ RSpec.configure do |c|
   project_root = File.expand_path(File.join(File.dirname(__FILE__), '..'))
   c.before(:suite) do
     hosts.each do |host|
-      shell("sed -i 's/^nameserver.*/nameserver 8.8.8.8/' /etc/resolv.conf")
-      install_puppet_agent_on(host, puppet_collection: 'puppet6')
-      copy_module_to(host, module_name: 'cups', source: project_root, target_module_path: '/etc/puppetlabs/code/modules')
+      run_puppet_install_helper_on(host) unless ENV['BEAKER_provision'] == 'no'
+      install_module_on(host)
+      install_module_dependencies_on(host)
       scp_to(host, File.join(project_root, 'spec/fixtures/ppd/textonly.ppd'), '/tmp/')
     end
   end

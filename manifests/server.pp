@@ -11,9 +11,13 @@
 class cups::server inherits cups {
 
   contain cups::server::config
+  contain cups::server::socket
   contain cups::server::services
 
   Class[cups::server::config]
   ~> Class[cups::server::services]
 
+  Class[cups::server::config]
+  -> Class[cups::server::socket]
+  -> Class[cups::server::services]
 }
