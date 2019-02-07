@@ -345,6 +345,36 @@ RSpec.describe 'cups' do
       end
     end
 
+    describe 'socket_manage' do
+      let(:facts) { any_supported_os }
+
+      context 'when set to false' do
+        let(:params) do
+          {
+            socket_manage: false
+          }
+        end
+
+        it { is_expected.to_not contain_service('cups.socket') }
+        it { is_expected.to contain_systemd__dropin_file('workaround-puppet-cups-35.conf').with_ensure('absent') }
+      end
+
+      %w[stopped running].each do |socket_ensure|
+        context "when set to true and ensure => #{socket_ensure}" do
+          let(:params) do
+            {
+              socket_manage: true,
+              socket_ensure: socket_ensure
+            }
+          end
+
+          it { is_expected.to contain_systemd__dropin_file('workaround-puppet-cups-35.conf').with_ensure('present') }
+          it { is_expected.to contain_systemd__dropin_file('workaround-puppet-cups-35.conf').that_notifies('Service[cups.socket]') }
+          it { is_expected.to contain_service('cups.socket').with_ensure(socket_ensure) }
+        end
+      end
+    end
+
     describe 'web_interface' do
       let(:facts) { any_supported_os }
 

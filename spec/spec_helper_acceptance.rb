@@ -16,6 +16,7 @@ RSpec.configure do |c|
     hosts.each do |host|
       run_puppet_install_helper_on(host) unless ENV['BEAKER_provision'] == 'no'
       install_module_on(host)
+      install_module_dependencies_on(host)
       scp_to(host, File.join(project_root, 'spec/fixtures/ppd/textonly.ppd'), '/tmp/')
     end
   end
