@@ -35,7 +35,9 @@
 #   in order to run CUPS and provide `ipptool`. OS dependent defaults apply.
 # @param papersize Sets the system's default `/etc/papersize`. See `man papersize` for supported values.
 # @param purge_unmanaged_queues Setting `true` will remove all queues from the node
-#   which do not match a `cups_queue` resource in the current catalog.
+#   which do not match a `cups_queue` resource in the current catalog. Silently
+#   ignored if the Cups server is not reachable when Puppet starts applying the
+#   catalog.
 # @param resources This attribute is intended for use with Hiera or any other ENC.
 # @param service_enable Whether the CUPS services should be enabled to run at boot.
 # @param service_ensure Whether the CUPS services should be `running` or `stopped`.
