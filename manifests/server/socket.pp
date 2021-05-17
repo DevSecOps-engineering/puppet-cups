@@ -39,6 +39,7 @@ class cups::server::socket inherits cups::server {
     Array($cups::service_names, true).each |$_service_name| {
       $_safe_name = shell_escape($_service_name)
 
+      include systemd::systemctl::daemon_reload
       service { "${_service_name}.socket":
         ensure    => $cups::socket_ensure,
         # Both units listen to port 631, however cups.service will play nice if
