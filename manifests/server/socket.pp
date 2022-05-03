@@ -39,14 +39,14 @@ class cups::server::socket inherits cups::server {
     Array($cups::service_names, true).each |$_service_name| {
       $_safe_name = shell_escape($_service_name)
 
-      include systemd::systemctl::daemon_reload
+#      include systemd::systemctl::daemon_reload
       service { "${_service_name}.socket":
         ensure    => $cups::socket_ensure,
         # Both units listen to port 631, however cups.service will play nice if
         # cups.socket is started first. See sd_listen_fds(3).
         start     => "systemctl stop ${_safe_name}.service && systemctl start ${_safe_name}.socket",
         restart   => "systemctl stop ${_safe_name}.service && systemctl restart ${_safe_name}.socket",
-        require   => Class['systemd::systemctl::daemon_reload'],
+ #       require   => Class['systemd::systemctl::daemon_reload'],
         subscribe => $_dropin_file,
       }
     }
